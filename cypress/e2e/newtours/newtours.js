@@ -1,4 +1,7 @@
 import {Given, When, Then, And} from "cypress-cucumber-preprocessor/steps";
+import newtoursPage from "./newtoursPage";
+
+
 beforeEach(()=>{
     cy.reload()
 })
@@ -7,17 +10,16 @@ after(()=>{
 })
 
 Given('open newtours app', ()=>{
-    cy.visit('https://demo.guru99.com/test/newtours/')
+    newtoursPage.visit()
 })
 When('enter valid account', (datatable) =>{
     datatable.hashes().forEach(element => {
-        cy.get('[name="userName"]').type(element.username)
-        cy.get('[name="password"]').type(element.password)
-    });
-    
+        newtoursPage.fillUsername(element.username)
+        newtoursPage.fillPassword(element.password)
+    }); 
 })
-And('click Submit button', ()=>{
-    cy.get('[name="submit"]').click()
+When('click Submit button', ()=>{
+    newtoursPage.clickSubmit()
 })
 Then('verify title of the page should be {string}', (title)=>{
     cy.title().should('eq', title)
